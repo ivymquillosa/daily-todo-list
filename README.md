@@ -1,4 +1,4 @@
-This is a Simple Daily Todo List with [Next.js](https://nextjs.org), [TailwindCss](https://tailwindcss.com/)
+# This is a Simple Daily Todo List with [Next.js](https://nextjs.org), [TailwindCss](https://tailwindcss.com/)
 
 ## Getting Started
 
