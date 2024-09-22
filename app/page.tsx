@@ -10,13 +10,13 @@ import Divider from "@/components/reusable/Divider";
 import useTodoValidation from "@/hooks/useValidation";
 import AlertDialog from "@/components/reusable/AlertDialog";
 
-const Home = ()=> {
+const Home = () => {
   const { todos, addTodo, clearAllTodos } = useTodoContext();
   const { error, validateTodo } = useTodoValidation();
 
-  // Local state to handle new todo input
   const [newTitle, setNewTitle] = useState("");
   const [newDescription, setNewDescription] = useState("");
+
   const handleAddTodo = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -41,7 +41,7 @@ const Home = ()=> {
           variant="ghost"
           value={newTitle}
           error={error && error?.includes("title") ? error : ''}
-          onChange={(e) => setNewTitle(e.target.value)} // Update the title state
+          onChange={(e) => setNewTitle(e.target.value)}
         />
         <Textarea
           rows={3}
@@ -49,7 +49,7 @@ const Home = ()=> {
           variant="ghost"
           value={newDescription}
           error={error && error?.includes("description") ? error : ''}
-          onChange={(e) => setNewDescription(e.target.value)} // Update the description state
+          onChange={(e) => setNewDescription(e.target.value)}
         />
         <Button
           type="submit"
@@ -59,11 +59,11 @@ const Home = ()=> {
         >
           Add
         </Button>
-      </form>  
-      <TodoList/>
-      <Divider/>
-      <div className="flex text-sm text-default-600 justify-between">
-        <p className="p-0 m-0">{completedCount} item{completedCount !== 1 ? 's' : ''}</p>
+      </form>
+      <TodoList />
+      <Divider />
+      <div className="flex text-sm text-default-600 items-center justify-between">
+        <p className="p-0 m-0">{`${completedCount} item${completedCount !== 1 ? 's' : ''} selected`}</p>
         <AlertDialog
           trigger={
             <button className="hover:bg-default-100 py-1.5 px-4 rounded">
@@ -71,13 +71,13 @@ const Home = ()=> {
             </button>
           }
           title="Clear All Task"
-          description="Are you sure you want to clear all task? This action cannot be undone."
+          description="Are you sure you want to clear all tasks? This action cannot be undone."
           actionLabel="Clear"
           onActionClick={clearAllTodos}
         />
       </div>
     </div>
-  );  
-}
+  );
+};
 
-export default Home
+export default Home;

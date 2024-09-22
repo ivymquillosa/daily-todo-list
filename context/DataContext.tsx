@@ -6,10 +6,10 @@ import { createContext, useState, useEffect, ReactNode } from "react";
 // Define the context type
 type TodoContextType = {
   todos: TodoData[];
-  addTodo: (newTodo: Omit<TodoData, "id">) => void;
+  addTodo: (newTodo: Omit<TodoData, "id" | "timestamp">) => void; // Omit timestamp here
   updateTodo: (updatedTodo: TodoData) => void;
   deleteTodo: (id: string) => void;
-  clearAllTodos: () => void
+  clearAllTodos: () => void;
 };
 
 const TodoContext = createContext<TodoContextType | undefined>(undefined);
@@ -27,9 +27,10 @@ const TodoProvider = ({ children }: { children: ReactNode }) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const transformedTodos: TodoData[] = data.map((todo: any) => ({
           id: todo.id.toString(),
-          title: todo.title || "No Title",
-          description: todo.description || "No description available",
+          title: todo.title || "",
+          description: todo.description || "",
           completed: todo.completed || false,
+          timestamp: Date.now()
         }));
 
         // Sort the todos immediately after fetching
@@ -44,23 +45,35 @@ const TodoProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const sortTodos = (todos: TodoData[]) => {
-    return todos.sort((a, b) => (a.completed === b.completed ? 0 : a.completed ? 1 : -1));
+    return todos.sort((a, b) => {
+      if (a.completed !== b.completed) {
+        return a.completed ? 1 : -1; // Uncompleted (false) goes first
+      }
+        return b.timestamp - a.timestamp; // Newest first
+    });
   };
 
-  const addTodo = (newTodo: Omit<TodoData, "id">) => {
+  const addTodo = (newTodo: Omit<TodoData, "id" | "timestamp">) => {
+
     const id = Date.now().toString();
-    const todoWithId = { ...newTodo, id };
+    const todoWithId = { ...newTodo, id,  completed: false, timestamp: Date.now() };
 
-    // Add and set sorted todos
-    setTodos((prevTodos) => sortTodos([todoWithId, ...prevTodos]));
+    setTodos((prevTodos) => {
+      const updatedTodos = [todoWithId, ...prevTodos]; // Add new todo
+      const sortedTodos = sortTodos(updatedTodos); // Sort the updated todos
+      return sortedTodos;
+    });
+
+    // Update localStorage
     localStorage.setItem("todos", JSON.stringify([todoWithId, ...todos]));
-  };
+};
 
   const updateTodo = (updatedTodo: TodoData) => {
+    
     const updatedTodos = todos.map((todo) =>
-      todo.id === updatedTodo.id ? updatedTodo : todo
+      todo.id === updatedTodo.id ? { ...updatedTodo, timestamp: Date.now() } : todo 
     );
-
+  
     // Set sorted todos
     setTodos(sortTodos(updatedTodos));
     localStorage.setItem("todos", JSON.stringify(updatedTodos));

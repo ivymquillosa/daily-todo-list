@@ -17,7 +17,6 @@ const TodoItem = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  // Find the todo based on the id from the context
   const todo = todos.find((todo) => todo.id === id);
 
   // Set state when the todo is found
@@ -32,7 +31,6 @@ const TodoItem = () => {
     return <div>Todo not found</div>;
   }
 
-  // Handle updating the todo
   const handleUpdate = () => {
     const updatedTodo = {
       ...todo,
@@ -46,7 +44,6 @@ const TodoItem = () => {
     }
   };
 
-  // Handle canceling the edit
   const handleCancel = () => {
     router.push("/");
   };
@@ -67,6 +64,7 @@ const TodoItem = () => {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         rows={5}
+        resize={true}
         error={error && error?.includes("description") ? error : ''}
         placeholder="Description"
         variant="ghost"

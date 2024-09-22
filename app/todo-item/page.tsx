@@ -36,7 +36,7 @@ const TodoList = () => {
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
-            <div className='flex text-default-800 text-sm gap-3'>
+            <div className='flex text-default-800 text-sm gap-3 min-h-[75px]'>
             <Checkbox
                 className='self-start mt-4 h-5 w-5'
                 color='success'
@@ -48,7 +48,7 @@ const TodoList = () => {
                   <p className='p-0 m-0 line-clamp-1 text-base font-medium text-secondary-600'>
                     {todo?.title}
                   </p>
-                  <p className='text-sm p-0 m-0 line-clamp-2'>{todo?.description}</p>
+                  <p className='text-sm p-0 m-0 line-clamp-2'>{todo?.description || 'No description available'}</p>
                 </div>
               </div>
               <div className='flex gap-3'>

@@ -17,4 +17,5 @@ export type TodoData = {
   title?: string;
   description?: string;
   completed?: boolean;
+  timestamp: number;
 };

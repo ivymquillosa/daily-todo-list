@@ -88,6 +88,7 @@ export interface ITextareaProps
   rows?: number
   error?: string
   icon?: React.ReactNode
+  resize?: boolean
 }
 
 const Textarea = React.forwardRef<HTMLDivElement, ITextareaProps>(
@@ -96,8 +97,9 @@ const Textarea = React.forwardRef<HTMLDivElement, ITextareaProps>(
       variant = 'outline',
       color = 'default',
       radius = 'soft',
-      rows= 3,
-      error='',
+      resize = false,
+      rows = 3,
+      error = '',
       className,
       label,
       icon,
@@ -124,7 +126,7 @@ const Textarea = React.forwardRef<HTMLDivElement, ITextareaProps>(
         </span>
         {icon && icon}
         <textarea
-          className="bg-transparent text-inherit flex-1 outline-none"
+          className={cn("bg-transparent text-inherit flex-1 outline-none", resize ? '' : 'resize-none')}
           rows={rows}
           {...props}
         />

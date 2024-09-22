@@ -50,7 +50,7 @@
               {description}          
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
+          <AlertDialogFooter className="!justify-center">
             <AlertDialogCancel 
               className="bg-secondary-400 text-white hover:text-white hover:bg-secondary-500">
               Cancel
